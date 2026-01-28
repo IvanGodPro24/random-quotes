@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Random quotes</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>✨ Random Quotes</h1>
+        <p class="subtitle">Words to motivate and inspire</p>
+      </header>
+
+      <main>
+        <div class="quote-container">
+          <div class="quote-icon">❝</div>
+          <p id="quote" class="quote-text">
+            Click the button below to discover an inspiring quote
+          </p>
+          <div class="quote-icon bottom">❞</div>
+        </div>
+
+        <div class="author-container">
+          <p id="author" class="author-text"></p>
+        </div>
+
+        <button id="generate-btn" class="generate-btn btn-text">
+          Generate Quote
+        </button>
+      </main>
+
+      <footer>
+        <p>Made with inspiration</p>
+      </footer>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
