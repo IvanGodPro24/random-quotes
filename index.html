@@ -13,33 +13,62 @@
     <title>Random quotes</title>
   </head>
   <body>
-    <div class="container">
-      <header>
-        <h1>✨ Random Quotes</h1>
-        <p class="subtitle">Words to motivate and inspire</p>
-      </header>
+    <div class="app-wrapper">
+      <div class="container">
+        <header>
+          <h1>✨ Random Quotes</h1>
+          <p class="subtitle">Words to motivate and inspire</p>
+        </header>
 
-      <main>
-        <div class="quote-container">
-          <div class="quote-icon">❝</div>
-          <p id="quote" class="quote-text">
-            Click the button below to discover an inspiring quote
-          </p>
-          <div class="quote-icon bottom">❞</div>
+        <main>
+          <div class="quote-container">
+            <div class="quote-icon">❝</div>
+            <p id="quote" class="quote-text">
+              Click the button below to discover an inspiring quote
+            </p>
+            <div class="quote-icon bottom">❞</div>
+          </div>
+
+          <div class="author-container">
+            <p id="author" class="author-text"></p>
+          </div>
+
+          <div class="button-group">
+            <button id="generate-btn" class="generate-btn btn-text">
+              Generate Quote
+            </button>
+
+            <button id="favourite-btn" class="generate-btn btn-text" disabled>
+              Make favourite
+            </button>
+          </div>
+        </main>
+
+        <footer>
+          <p>Made with inspiration</p>
+        </footer>
+      </div>
+
+      <div class="favourites-section">
+        <div class="favourites-header">
+          <h2>
+            <span class="star-icon">⭐</span>
+            Favourite Quotes
+            <span class="favourites-count">(0)</span>
+          </h2>
+          <p class="favourites-subtitle">Your collection of inspiration</p>
         </div>
 
-        <div class="author-container">
-          <p id="author" class="author-text"></p>
+        <div id="favourites-container" class="favourites-container">
+          <div class="empty-state">
+            <div class="empty-state-icon">📚</div>
+            <p class="empty-state-text">No favourite quotes yet</p>
+            <p class="empty-state-hint">
+              Click the star button to add quotes here
+            </p>
+          </div>
         </div>
-
-        <button id="generate-btn" class="generate-btn btn-text">
-          Generate Quote
-        </button>
-      </main>
-
-      <footer>
-        <p>Made with inspiration</p>
-      </footer>
+      </div>
     </div>
 
     <script src="./script.js" type="module"></script>
