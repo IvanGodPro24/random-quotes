@@ -479,6 +479,94 @@ footer {
   }
 }
 
+.star {
+  width: 50px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.star:disabled {
+  display: none;
+}
+
+.favourite-icon {
+  fill: #a0aec0;
+}
+
+.star {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #ffeaa7, #fdcb6e);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(253, 203, 110, 0.3);
+  margin: 20px 0;
+}
+
+.star:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 6px 20px rgba(253, 203, 110, 0.4);
+  background: linear-gradient(45deg, #fdcb6e, #e17055);
+}
+
+.star:active:not(:disabled) {
+  transform: translateY(0) scale(0.95);
+}
+
+.star:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+  transform: none;
+  background: linear-gradient(45deg, #dfe6e9, #b2bec3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.favourite-icon {
+  width: 32px;
+  height: 32px;
+  transition: all 0.3s ease;
+  fill: #d35400;
+}
+
+.star:hover:not(:disabled) .favourite-icon {
+  fill: #e74c3c;
+  transform: scale(1.1);
+}
+
+.star:disabled .favourite-icon {
+  fill: #636e72;
+}
+
+@keyframes starPop {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .star {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .favourite-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
 .favourite-item {
   background: #f8f9fa;
   border-radius: 16px;
@@ -496,15 +584,6 @@ footer {
   transform: translateY(-4px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
   border-color: #f6d365;
-}
-
-.favourite-item::before {
-  content: "⭐";
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 1.2rem;
-  opacity: 0.7;
 }
 
 .favourite-quote-text {
@@ -545,7 +624,6 @@ footer {
   box-shadow: 0 4px 15px rgba(255, 118, 117, 0.3);
   margin-top: 10px;
   align-self: flex-end;
-  min-width: 140px;
 }
 
 .delete-btn:hover {
