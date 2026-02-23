@@ -3,6 +3,7 @@ import {
   updateFavouriteBtn,
   renderFavourites,
 } from "./src/favouritesHandler.js";
+import { generateRandomNumber } from "./src/utils/math.js";
 
 const quoteElement = document.getElementById("quote");
 const authorElement = document.getElementById("author");
@@ -17,7 +18,7 @@ const generateRandomQuote = () => {
   let randomQuote;
 
   do {
-    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const randomIndex = generateRandomNumber(quotes.length);
     randomQuote = quotes[randomIndex];
   } while (randomQuote === currentQuote);
 
