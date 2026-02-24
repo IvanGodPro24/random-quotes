@@ -1,4 +1,3 @@
-import { quotes } from "../data/quotes.js";
 import { updateFavouriteBtn } from "./favouritesHandler.js";
 import { generateRandomNumber } from "../utils/math.js";
 import { getCurrentQuote, setCurrentQuote } from "../state.js";
@@ -14,7 +13,7 @@ export const showQuote = () => {
   updateFavouriteBtn(currentQuote);
 };
 
-export const generateRandomQuote = () => {
+export const generateRandomQuote = (quotes) => {
   const currentQuote = getCurrentQuote();
   let randomQuote;
 
@@ -26,8 +25,8 @@ export const generateRandomQuote = () => {
   return randomQuote;
 };
 
-export const handleQuote = () => {
-  const randomQuote = generateRandomQuote();
+export const handleQuote = (quotes) => {
+  const randomQuote = generateRandomQuote(quotes);
 
   setCurrentQuote(randomQuote);
 

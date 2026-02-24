@@ -1,8 +1,9 @@
+import { quotes } from "./src/data/quotes.js";
 import { initFavourites } from "./src/handlers/favouritesHandler.js";
 import { handleQuote } from "./src/handlers/quotesHandler.js";
 
 const generateBtn = document.getElementById("generate-btn");
 
-generateBtn.addEventListener("click", handleQuote);
+generateBtn.addEventListener("click", () => handleQuote(quotes));
 
 initFavourites();
