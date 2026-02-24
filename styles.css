@@ -486,10 +486,6 @@ footer {
   border: none;
 }
 
-.star:disabled {
-  display: none;
-}
-
 .favourite-icon {
   fill: #a0aec0;
 }

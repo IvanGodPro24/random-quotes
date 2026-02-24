@@ -1,7 +1,14 @@
-export const updateFavouriteBtn = (quote, button) => {
-  if (!quote) return;
+import { getCurrentQuote } from "../state.js";
+import { quotes } from "../data/quotes.js";
 
-  button.innerHTML = quote.isFavourite
+const favouriteBtn = document.getElementById("favourite-btn");
+const favouritesContainer = document.getElementById("favourites-container");
+const favouritesCount = document.querySelector(".favourites-count");
+
+export const updateFavouriteBtn = ({ isFavourite }) => {
+  favouriteBtn.removeAttribute("disabled");
+
+  favouriteBtn.innerHTML = isFavourite
     ? `<svg class="favourite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <path
               d="M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z"
@@ -14,31 +21,18 @@ export const updateFavouriteBtn = (quote, button) => {
         </svg>`;
 };
 
-export const removeFromFavourites = (
-  quote,
-  quotes,
-  container,
-  count,
-  currentQuote,
-  favouriteBtn,
-) => {
+export const removeFromFavourites = (quote, quotes, currentQuote) => {
   quote.isFavourite = false;
 
   if (currentQuote === quote) {
-    updateFavouriteBtn(currentQuote, favouriteBtn);
+    updateFavouriteBtn(currentQuote);
   }
 
-  renderFavourites(quotes, container, count, currentQuote, favouriteBtn);
+  renderFavourites(quotes, currentQuote);
 };
 
-export const renderFavourites = (
-  quotes,
-  container,
-  count,
-  currentQuote,
-  favouriteBtn,
-) => {
-  container.innerHTML = "";
+export const renderFavourites = (quotes, currentQuote) => {
+  favouritesContainer.innerHTML = "";
 
   const favourites = quotes.filter((quote) => quote.isFavourite);
 
@@ -62,23 +56,32 @@ export const renderFavourites = (
     favouriteQuoteContainer.appendChild(authorElement);
     favouriteQuoteContainer.appendChild(deleteFavouriteBtn);
 
-    container.appendChild(favouriteQuoteContainer);
+    favouritesContainer.appendChild(favouriteQuoteContainer);
 
     deleteFavouriteBtn.addEventListener("click", () => {
-      removeFromFavourites(
-        quote,
-        quotes,
-        container,
-        count,
-        currentQuote,
-        favouriteBtn,
-      );
+      removeFromFavourites(quote, quotes, currentQuote);
     });
   });
 
-  count.textContent = `(${favourites.length})`;
+  favouritesCount.textContent = `(${favourites.length})`;
 
   if (!favourites.length) {
-    container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📚</div><p class="empty-state-text">No favourite quotes yet</p><p class="empty-state-hint">Click the star button to add quotes here</p></div>`;
+    favouritesContainer.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📚</div><p class="empty-state-text">No favourite quotes yet</p><p class="empty-state-hint">Click the star button to add quotes here</p></div>`;
   }
+};
+
+export const toggleFavourite = () => {
+  const currentQuote = getCurrentQuote();
+
+  if (!currentQuote) return;
+
+  currentQuote.isFavourite = !currentQuote.isFavourite;
+
+  updateFavouriteBtn(currentQuote);
+
+  renderFavourites(quotes, currentQuote);
+};
+
+export const initFavourites = () => {
+  favouriteBtn.addEventListener("click", toggleFavourite);
 };
