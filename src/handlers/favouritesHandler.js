@@ -1,5 +1,4 @@
 import { getCurrentQuote } from "../state.js";
-import { quotes } from "../data/quotes.js";
 
 const favouriteBtn = document.getElementById("favourite-btn");
 const favouritesContainer = document.getElementById("favourites-container");
@@ -70,7 +69,7 @@ export const renderFavourites = (quotes, currentQuote) => {
   }
 };
 
-export const toggleFavourite = () => {
+export const toggleFavourite = (quotes) => {
   const currentQuote = getCurrentQuote();
 
   if (!currentQuote) return;
@@ -82,6 +81,6 @@ export const toggleFavourite = () => {
   renderFavourites(quotes, currentQuote);
 };
 
-export const initFavourites = () => {
-  favouriteBtn.addEventListener("click", toggleFavourite);
+export const initFavourites = (quotes) => {
+  favouriteBtn.addEventListener("click", () => toggleFavourite(quotes));
 };

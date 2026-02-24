@@ -6,4 +6,4 @@ const generateBtn = document.getElementById("generate-btn");
 
 generateBtn.addEventListener("click", () => handleQuote(quotes));
 
-initFavourites();
+initFavourites(quotes);
