@@ -41,6 +41,7 @@ export const renderFavourites = (quotes, currentQuote) => {
     deleteFavouriteBtn.classList.add("delete-btn");
 
     favouriteQuoteContainer.classList.add("favourite-item");
+    favouriteQuoteContainer.dataset.id = quote.id
 
     const quoteElement = document.createElement("p");
     const authorElement = document.createElement("p");
