@@ -20,7 +20,7 @@ export const updateFavouriteBtn = ({ isFavourite }) => {
         </svg>`;
 };
 
-export const removeFromFavourites = (quote, quotes, currentQuote) => {
+const removeFromFavourites = (quote, quotes, currentQuote) => {
   quote.isFavourite = false;
 
   if (currentQuote === quote) {
@@ -30,7 +30,7 @@ export const removeFromFavourites = (quote, quotes, currentQuote) => {
   renderFavourites(quotes, currentQuote);
 };
 
-export const renderFavourites = (quotes, currentQuote) => {
+const renderFavourites = (quotes, currentQuote) => {
   favouritesContainer.innerHTML = "";
 
   const favourites = quotes.filter((quote) => quote.isFavourite);
