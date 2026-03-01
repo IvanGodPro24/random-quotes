@@ -1,4 +1,6 @@
 import { getCurrentQuote } from "../state.js";
+import { loadFavourites, saveFavourites } from "../utils/storage.js";
+import { applyQuote } from "./quotesHandler.js";
 
 const favouriteBtn = document.getElementById("favourite-btn");
 const favouritesContainer = document.getElementById("favourites-container");
@@ -20,17 +22,20 @@ export const updateFavouriteBtn = ({ isFavourite }) => {
         </svg>`;
 };
 
-const removeFromFavourites = (quote, quotes, currentQuote) => {
+const removeFromFavourites = (quote, quotes) => {
+  const currentQuote = getCurrentQuote();
+
   quote.isFavourite = false;
 
   if (currentQuote === quote) {
     updateFavouriteBtn(currentQuote);
   }
 
-  renderFavourites(quotes, currentQuote);
+  saveFavourites(quotes);
+  renderFavourites(quotes);
 };
 
-const renderFavourites = (quotes, currentQuote) => {
+const renderFavourites = (quotes) => {
   favouritesContainer.innerHTML = "";
 
   const favourites = quotes.filter((quote) => quote.isFavourite);
@@ -41,7 +46,7 @@ const renderFavourites = (quotes, currentQuote) => {
     deleteFavouriteBtn.classList.add("delete-btn");
 
     favouriteQuoteContainer.classList.add("favourite-item");
-    favouriteQuoteContainer.dataset.id = quote.id
+    favouriteQuoteContainer.dataset.id = quote.id;
 
     const quoteElement = document.createElement("p");
     const authorElement = document.createElement("p");
@@ -59,7 +64,7 @@ const renderFavourites = (quotes, currentQuote) => {
     favouritesContainer.appendChild(favouriteQuoteContainer);
 
     deleteFavouriteBtn.addEventListener("click", () => {
-      removeFromFavourites(quote, quotes, currentQuote);
+      removeFromFavourites(quote, quotes);
     });
   });
 
@@ -77,11 +82,15 @@ export const toggleFavourite = (quotes) => {
 
   currentQuote.isFavourite = !currentQuote.isFavourite;
 
-  updateFavouriteBtn(currentQuote);
+  saveFavourites(quotes);
+  applyQuote(currentQuote)
 
-  renderFavourites(quotes, currentQuote);
+  renderFavourites(quotes);
 };
 
 export const initFavourites = (quotes) => {
+  loadFavourites(quotes);
+  renderFavourites(quotes);
+
   favouriteBtn.addEventListener("click", () => toggleFavourite(quotes));
 };

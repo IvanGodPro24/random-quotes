@@ -13,6 +13,16 @@ export const showQuote = () => {
   updateFavouriteBtn(currentQuote);
 };
 
+export const applyQuote = (quote) => {
+  if (!quote) return;
+
+  setCurrentQuote(quote);
+
+  localStorage.setItem("currentQuote", JSON.stringify(quote));
+
+  showQuote();
+};
+
 export const generateRandomQuote = (quotes) => {
   const currentQuote = getCurrentQuote();
   let randomQuote;
@@ -28,7 +38,5 @@ export const generateRandomQuote = (quotes) => {
 export const handleQuote = (quotes) => {
   const randomQuote = generateRandomQuote(quotes);
 
-  setCurrentQuote(randomQuote);
-
-  showQuote();
+  applyQuote(randomQuote);
 };
