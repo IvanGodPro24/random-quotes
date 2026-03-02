@@ -1,9 +1,13 @@
 export const saveFavourites = (quotes) => {
-  const favouriteIds = quotes
-    .filter((quote) => quote.isFavourite)
-    .map((favQ) => favQ.id);
+  try {
+    const favouriteIds = quotes
+      .filter((quote) => quote.isFavourite)
+      .map((favQ) => favQ.id);
 
-  localStorage.setItem("favourites", JSON.stringify(favouriteIds));
+    localStorage.setItem("favourites", JSON.stringify(favouriteIds));
+  } catch (error) {
+    console.error("Failed to save favourites", error);
+  }
 };
 
 export const loadFavourites = (quotes) => {
