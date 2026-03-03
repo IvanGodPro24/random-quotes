@@ -1,5 +1,12 @@
 import { getCurrentQuote } from "../state.js";
-import { loadFavourites, saveFavourites } from "../utils/storage.js";
+import {
+  addFavourite,
+  loadFromLocalStorage,
+  loadFavourites,
+  removeFavourite,
+  saveInLocalStorage,
+} from "../utils/storage.js";
+import { CURRENT_QUOTE, FAVOURITES } from "../utils/storageKeys.js";
 import { applyQuote } from "./quotesHandler.js";
 
 const favouriteBtn = document.getElementById("favourite-btn");
@@ -31,14 +38,19 @@ const removeFromFavourites = (quote, quotes) => {
     updateFavouriteBtn(currentQuote);
   }
 
-  saveFavourites(quotes);
+  removeFavourite(quote.id);
+
   renderFavourites(quotes);
 };
 
 const renderFavourites = (quotes) => {
   favouritesContainer.innerHTML = "";
 
-  const favourites = quotes.filter((quote) => quote.isFavourite);
+  const favouriteIds = loadFromLocalStorage(FAVOURITES);
+
+  const favourites = favouriteIds
+    .map((id) => quotes.find((quote) => id === quote.id))
+    .filter(Boolean);
 
   favourites.forEach((quote) => {
     const favouriteQuoteContainer = document.createElement("div");
@@ -82,8 +94,13 @@ export const toggleFavourite = (quotes) => {
 
   currentQuote.isFavourite = !currentQuote.isFavourite;
 
-  saveFavourites(quotes);
-  applyQuote(currentQuote)
+  if (currentQuote.isFavourite) {
+    addFavourite(currentQuote.id);
+  } else {
+    removeFavourite(currentQuote.id);
+  }
+
+  applyQuote(currentQuote);
 
   renderFavourites(quotes);
 };
