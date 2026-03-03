@@ -1,4 +1,4 @@
-import { FAVOURITES } from "./storageKeys.js";
+import { CURRENT_QUOTE, FAVOURITES } from "./storageKeys.js";
 
 export const saveFavourites = (quotes) => {
   try {
@@ -21,5 +21,21 @@ export const loadFavourites = (quotes) => {
     });
   } catch (error) {
     console.error("Failed to load favourites:", error);
+  }
+};
+
+export const saveCurrentQuote = (quote) => {
+  try {
+    localStorage.setItem(CURRENT_QUOTE, JSON.stringify(quote));
+  } catch (error) {
+    console.error("Failed to save current quote", error);
+  }
+};
+
+export const loadCurrentQuote = () => {
+  try {
+    return JSON.parse(localStorage.getItem(CURRENT_QUOTE));
+  } catch (error) {
+    console.error("Failed to load current quote", error);
   }
 };

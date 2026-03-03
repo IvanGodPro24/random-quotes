@@ -1,7 +1,7 @@
 import { updateFavouriteBtn } from "./favouritesHandler.js";
 import { generateRandomNumber } from "../utils/math.js";
 import { getCurrentQuote, setCurrentQuote } from "../state.js";
-import { CURRENT_QUOTE } from "../utils/storageKeys.js";
+import { saveCurrentQuote } from "../utils/storage.js";
 
 export const showQuote = () => {
   const currentQuote = getCurrentQuote();
@@ -19,7 +19,7 @@ export const applyQuote = (quote) => {
 
   setCurrentQuote(quote);
 
-  localStorage.setItem(CURRENT_QUOTE, JSON.stringify(quote));
+  saveCurrentQuote(quote);
 
   showQuote();
 };
