@@ -4,7 +4,7 @@ export const loadFromLocalStorage = (key) => {
   try {
     return JSON.parse(localStorage.getItem(key)) || [];
   } catch (error) {
-    console.error("Failed to load", error);
+    console.error("Failed to load:", error);
   }
 };
 
@@ -21,19 +21,27 @@ export const saveInLocalStorage = (key, value) => {
 };
 
 export const addFavourite = (id) => {
-  const ids = loadFromLocalStorage(FAVOURITES);
+  try {
+    const ids = loadFromLocalStorage(FAVOURITES);
 
-  if (!ids.includes(id)) ids.push(id);
+    if (!ids.includes(id)) ids.push(id);
 
-  saveInLocalStorage(FAVOURITES, ids);
+    saveInLocalStorage(FAVOURITES, ids);
+  } catch (error) {
+    console.error("Failed to add favourites:", error);
+  }
 };
 
 export const removeFavourite = (id) => {
-  const ids = loadFromLocalStorage(FAVOURITES);
+  try {
+    const ids = loadFromLocalStorage(FAVOURITES);
 
-  const filteredIds = ids.filter((favId) => favId !== id);
+    const filteredIds = ids.filter((favId) => favId !== id);
 
-  saveInLocalStorage(FAVOURITES, filteredIds);
+    saveInLocalStorage(FAVOURITES, filteredIds);
+  } catch (error) {
+    console.error("Failed to remove favourites:", error);
+  }
 };
 
 export const loadFavourites = (quotes) => {
