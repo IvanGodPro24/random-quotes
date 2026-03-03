@@ -1,10 +1,12 @@
+import { FAVOURITES } from "./storageKeys.js";
+
 export const saveFavourites = (quotes) => {
   try {
     const favouriteIds = quotes
       .filter((quote) => quote.isFavourite)
       .map((favQ) => favQ.id);
 
-    localStorage.setItem("favourites", JSON.stringify(favouriteIds));
+    localStorage.setItem(FAVOURITES, JSON.stringify(favouriteIds));
   } catch (error) {
     console.error("Failed to save favourites", error);
   }
@@ -12,7 +14,7 @@ export const saveFavourites = (quotes) => {
 
 export const loadFavourites = (quotes) => {
   try {
-    const favouriteIds = JSON.parse(localStorage.getItem("favourites")) || [];
+    const favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES)) || [];
 
     quotes.forEach((quote) => {
       quote.isFavourite = favouriteIds.includes(quote.id);
