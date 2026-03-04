@@ -1,12 +1,10 @@
 import { getCurrentQuote } from "../state.js";
 import {
-  addFavourite,
-  loadFromLocalStorage,
-  loadFavourites,
-  removeFavourite,
-  saveInLocalStorage,
+  addFavouriteId,
+  removeFavouriteId,
+  getFavouriteIds,
+  isFavouriteId,
 } from "../utils/storage.js";
-import { CURRENT_QUOTE, FAVOURITES } from "../utils/storageKeys.js";
 import { applyQuote } from "./quotesHandler.js";
 
 const favouriteBtn = document.getElementById("favourite-btn");
@@ -32,13 +30,11 @@ export const updateFavouriteBtn = ({ isFavourite }) => {
 const removeFromFavourites = (quote, quotes) => {
   const currentQuote = getCurrentQuote();
 
-  quote.isFavourite = false;
-
-  if (currentQuote === quote) {
-    updateFavouriteBtn(currentQuote);
+  if (currentQuote?.id === quote.id) {
+    updateFavouriteBtn({ isFavourite: false });
   }
 
-  removeFavourite(quote.id);
+  removeFavouriteId(quote.id);
 
   renderFavourites(quotes);
 };
@@ -46,38 +42,35 @@ const removeFromFavourites = (quote, quotes) => {
 const renderFavourites = (quotes) => {
   favouritesContainer.innerHTML = "";
 
-  const favouriteIds = loadFromLocalStorage(FAVOURITES);
+  const favouriteIds = getFavouriteIds();
 
   const favourites = favouriteIds
-    .map((id) => quotes.find((quote) => id === quote.id))
+    .map((id) => quotes.find((quote) => quote.id === id))
     .filter(Boolean);
 
   favourites.forEach((quote) => {
-    const favouriteQuoteContainer = document.createElement("div");
-    const deleteFavouriteBtn = document.createElement("button");
-    deleteFavouriteBtn.classList.add("delete-btn");
-
-    favouriteQuoteContainer.classList.add("favourite-item");
-    favouriteQuoteContainer.dataset.id = quote.id;
+    const item = document.createElement("div");
+    item.classList.add("favourite-item");
+    item.dataset.id = quote.id;
 
     const quoteElement = document.createElement("p");
-    const authorElement = document.createElement("p");
-
-    quoteElement.textContent = `"${quote.text}"`;
     quoteElement.classList.add("favourite-quote-text");
+    quoteElement.textContent = `"${quote.text}"`;
 
-    authorElement.textContent = `— ${quote.author}`;
+    const authorElement = document.createElement("p");
     authorElement.classList.add("favourite-author-text");
+    authorElement.textContent = `— ${quote.author}`;
 
-    favouriteQuoteContainer.appendChild(quoteElement);
-    favouriteQuoteContainer.appendChild(authorElement);
-    favouriteQuoteContainer.appendChild(deleteFavouriteBtn);
+    const delBtn = document.createElement("button");
+    delBtn.classList.add("delete-btn");
 
-    favouritesContainer.appendChild(favouriteQuoteContainer);
-
-    deleteFavouriteBtn.addEventListener("click", () => {
+    delBtn.addEventListener("click", () => {
       removeFromFavourites(quote, quotes);
     });
+
+    item.append(quoteElement, authorElement, delBtn);
+
+    favouritesContainer.appendChild(item);
   });
 
   favouritesCount.textContent = `(${favourites.length})`;
@@ -92,12 +85,12 @@ export const toggleFavourite = (quotes) => {
 
   if (!currentQuote) return;
 
-  currentQuote.isFavourite = !currentQuote.isFavourite;
+  const fav = isFavouriteId(currentQuote.id);
 
-  if (currentQuote.isFavourite) {
-    addFavourite(currentQuote.id);
+  if (fav) {
+    removeFavouriteId(currentQuote.id);
   } else {
-    removeFavourite(currentQuote.id);
+    addFavouriteId(currentQuote.id);
   }
 
   applyQuote(currentQuote);
@@ -106,7 +99,6 @@ export const toggleFavourite = (quotes) => {
 };
 
 export const initFavourites = (quotes) => {
-  loadFavourites(quotes);
   renderFavourites(quotes);
 
   favouriteBtn.addEventListener("click", () => toggleFavourite(quotes));

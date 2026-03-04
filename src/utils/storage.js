@@ -1,8 +1,8 @@
-import { FAVOURITES } from "./storageKeys.js";
+import { CURRENT_QUOTE, FAVOURITES } from "./storageKeys.js";
 
 export const loadFromLocalStorage = (key) => {
   try {
-    return JSON.parse(localStorage.getItem(key)) || [];
+    return JSON.parse(localStorage.getItem(key)) || null;
   } catch (error) {
     console.error("Failed to load:", error);
   }
@@ -20,38 +20,46 @@ export const saveInLocalStorage = (key, value) => {
   }
 };
 
-export const addFavourite = (id) => {
-  try {
-    const ids = loadFromLocalStorage(FAVOURITES);
+export const getFavouriteIds = () =>
+  loadFromLocalStorage(FAVOURITES).map(Number);
 
-    if (!ids.includes(id)) ids.push(id);
+export const isFavouriteId = (id) => getFavouriteIds().includes(id);
+
+export const addFavouriteId = (id) => {
+  try {
+    const ids = getFavouriteIds();
+    const numId = Number(id);
+
+    if (!ids.includes(numId)) ids.push(numId);
 
     saveInLocalStorage(FAVOURITES, ids);
+
+    return ids;
   } catch (error) {
     console.error("Failed to add favourites:", error);
   }
 };
 
-export const removeFavourite = (id) => {
+export const removeFavouriteId = (id) => {
   try {
-    const ids = loadFromLocalStorage(FAVOURITES);
+    const numId = Number(id);
 
-    const filteredIds = ids.filter((favId) => favId !== id);
+    const ids = getFavouriteIds();
+
+    const filteredIds = ids.filter((favId) => favId !== numId);
 
     saveInLocalStorage(FAVOURITES, filteredIds);
+
+    return filteredIds;
   } catch (error) {
     console.error("Failed to remove favourites:", error);
   }
 };
 
-export const loadFavourites = (quotes) => {
-  try {
-    const favouriteIds = loadFromLocalStorage(FAVOURITES);
+export const saveCurrentQuoteId = (id) =>
+  saveInLocalStorage(CURRENT_QUOTE, Number(id));
 
-    quotes.forEach((quote) => {
-      quote.isFavourite = favouriteIds.includes(quote.id);
-    });
-  } catch (error) {
-    console.error("Failed to load favourites:", error);
-  }
+export const loadCurrentQuoteId = () => {
+  const id = loadFromLocalStorage(CURRENT_QUOTE);
+  return id || null;
 };

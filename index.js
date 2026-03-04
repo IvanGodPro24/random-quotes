@@ -1,17 +1,16 @@
 import { quotes } from "./src/data/quotes.js";
 import { initFavourites } from "./src/handlers/favouritesHandler.js";
 import { applyQuote, handleQuote } from "./src/handlers/quotesHandler.js";
-import { loadFromLocalStorage } from "./src/utils/storage.js";
-import { CURRENT_QUOTE } from "./src/utils/storageKeys.js";
+import { loadCurrentQuoteId } from "./src/utils/storage.js";
 
 const generateBtn = document.getElementById("generate-btn");
 
 initFavourites(quotes);
 
-const storedQuote = loadFromLocalStorage(CURRENT_QUOTE);
+const storedId = loadCurrentQuoteId();
 
-if (storedQuote) {
-  const realQuote = quotes.find((q) => q.id === storedQuote.id);
+if (storedId) {
+  const realQuote = quotes.find((q) => q.id === storedId);
   applyQuote(realQuote);
 }
 

@@ -1,18 +1,20 @@
 import { updateFavouriteBtn } from "./favouritesHandler.js";
 import { generateRandomNumber } from "../utils/math.js";
 import { getCurrentQuote, setCurrentQuote } from "../state.js";
-import { saveInLocalStorage } from "../utils/storage.js";
-import { CURRENT_QUOTE } from "../utils/storageKeys.js";
+import { isFavouriteId, saveCurrentQuoteId } from "../utils/storage.js";
 
 export const showQuote = () => {
   const currentQuote = getCurrentQuote();
+
+  if (!currentQuote) return;
+
   const quoteElement = document.getElementById("quote");
   const authorElement = document.getElementById("author");
 
   quoteElement.textContent = currentQuote.text;
   authorElement.textContent = `- ${currentQuote.author}`;
 
-  updateFavouriteBtn(currentQuote);
+  updateFavouriteBtn({ isFavourite: isFavouriteId(currentQuote.id) });
 };
 
 export const applyQuote = (quote) => {
@@ -20,7 +22,7 @@ export const applyQuote = (quote) => {
 
   setCurrentQuote(quote);
 
-  saveInLocalStorage(CURRENT_QUOTE, quote);
+  saveCurrentQuoteId(quote.id);
 
   showQuote();
 };
