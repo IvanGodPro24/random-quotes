@@ -1,21 +1,7 @@
-import { updateFavouriteBtn } from "./favouritesHandler.js";
 import { generateRandomNumber } from "../utils/math.js";
 import { getCurrentQuote, setCurrentQuote } from "../state.js";
 import { isFavouriteId, saveCurrentQuoteId } from "../utils/storage.js";
-
-export const showQuote = () => {
-  const currentQuote = getCurrentQuote();
-
-  if (!currentQuote) return;
-
-  const quoteElement = document.getElementById("quote");
-  const authorElement = document.getElementById("author");
-
-  quoteElement.textContent = currentQuote.text;
-  authorElement.textContent = `- ${currentQuote.author}`;
-
-  updateFavouriteBtn({ isFavourite: isFavouriteId(currentQuote.id) });
-};
+import { renderFavouriteButton, renderQuote } from "../ui/quoteView.js";
 
 export const applyQuote = (quote) => {
   if (!quote) return;
@@ -24,7 +10,8 @@ export const applyQuote = (quote) => {
 
   saveCurrentQuoteId(quote.id);
 
-  showQuote();
+  renderQuote(quote);
+  renderFavouriteButton({ isFavourite: isFavouriteId(quote.id) });
 };
 
 export const generateRandomQuote = (quotes) => {
